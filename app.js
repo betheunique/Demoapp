@@ -46,4 +46,8 @@ elastic.indexExists().then(function (exists) {
   });
 });
 
+var redisConnect = require('./redis');
+
+redisConnect.addMessage();
+
 module.exports = app;
