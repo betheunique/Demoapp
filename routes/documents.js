@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 var elastic = require('../elasticsearch');
-var redis = require('../redis');
+var redis = require('redis');
+
+var redisClient = redis.createClient();
 
 
 /* POST message to be indexed */
@@ -21,8 +23,14 @@ router.get("/search", function (req, res, next) {
  * Get all messages using redis
  */
 
- router.get('/messages', function (req, res, next) {
+router.get('/', function (req, res, next) {
   redis.getMessage().then(function (result) { res.json(result) });
+});
+
+router.grt('/messages', function(req, res, next) {
+	redisClient.smembers("messages", function(error, result){
+		res.json(result)
+	});
 });
 
 module.exports = router;

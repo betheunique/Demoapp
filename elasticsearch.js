@@ -1,11 +1,13 @@
 var elasticsearch = require('elasticsearch');
-var redis = require('./redis');
+var redis = require('redis');
 var Q = require('q');
 
 var elasticClient = new elasticsearch.Client({
     host: 'localhost:9200',
     log: 'info'
 });
+
+var redisClient = redis.createClient();
 
 var indexName = "messages";
 
@@ -55,7 +57,7 @@ exports.startMapping = startMapping;
 function addMessage(message) {
 
     var redisData = message.title;
-    redis.sadd("messages", redisData);
+    redisClient.sadd("messages", redisData);
 
     return elasticClient.index({
         index: indexName,

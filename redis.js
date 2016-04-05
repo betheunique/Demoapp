@@ -12,7 +12,7 @@ exports.getMessage = getMessage;
 
 function addMessage() {
 
-	redisClient.flushall(function(err, res) {
+	return redisClient.flushall(function(err, res) {
 		var arry = [ 'Hello CloudBoost','Hello Abhishek','Hi Mom' ];
 		redisClient.sadd("messages", arry, function(err, res){
 			console.log("done");
